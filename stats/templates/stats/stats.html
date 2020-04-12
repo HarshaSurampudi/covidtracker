@@ -199,6 +199,13 @@
       }
     </script>
 <style>
+body { width: 100%; text-align: center; }
+html, body {
+  overflow-x: hidden;
+}
+body {
+  position: relative
+}
 .footer {
    position: fixed;
    left: 0;
@@ -211,27 +218,6 @@
 </style>
 </head>
 <body>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Source :</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        The statistics are obtained from <a href="https://www.mohfw.gov.in/">Ministry of Health and Family welfare</a> official website. The data is verified with Media Sources and is updated on a hourly basis. However if you wish to see the latest data, click on Load Data
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="/loaddata"><button type="button" class="btn btn-primary">Load Data</button></a>
-      </div>
-    </div>
-  </div>
-</div>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
     </div>
@@ -265,8 +251,7 @@
   </div>
   <br/>
 {% include "stats/table.html" %}
-</div>
-<div class="row">
+<div class="row" style="width:100%">
 <div class="col-sm-6">
       <center><div id="chart1" style="width: 100%; height: 500px; max-width:900px"></div></center>
 </div>
@@ -274,7 +259,7 @@
       <center><div id="chart2" style="width: 100%; height: 500px; max-width:900px"></div></center>
 </div>
 </div>
-<div class="row">
+<div class="row" style="width:100%">
 <div class="col-sm-6">
       <center><div id="chart3" style="width: 100%; height: 500px; max-width:900px"></div></center>
 </div>
@@ -282,7 +267,7 @@
       <center><div id="chart4" style="width: 100%; height: 500px; max-width:900px"></div></center>
 </div>
 </div>
-<div class="row">
+<div class="row" style="width:100%">
 <div class="col-sm-6">
       <center><div id="chart5" style="width: 100%; height: 500px; max-width:900px"></div></center>
 </div>
@@ -291,9 +276,6 @@
 </div>
 </div>
 </div>
-
-
-
 <footer class="page-footer font-small blue">
 
   <div class="footer-copyright text-center py-3">Developed by Harsha Surampudi
