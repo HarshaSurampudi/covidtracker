@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>COVID-19 Statistics</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- for Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- For datatable -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#example').DataTable( {
+        "order": [[ 1, "desc" ]]
+    } );
+} );
+</script>
+<!-- For chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'place');
+        data.addColumn('number', 'count');
+        data.addRows([
+          {% for entry in state_data %}
+          ['{{ entry.state }}', {{ entry.confirmed }}],
+          {% endfor %}
+        ]);
+
+        // Set chart options
+        var options = {'title':'Pie Chart for Total Cases',
+                       'width':500 ,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- For chart1 -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Total Confirmed Cases', 'Active Cases'],
+          {% for point in cases_time_series %}
+          ['{{ point.date }}',  {{ point.totalconfirmed }} ,{{ point.totalactive }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Total Confirmed and Active Cases',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart1'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- For chart2 -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Daily New Cases'],
+          {% for point in cases_time_series %}
+          ['{{ point.date }}', {{ point.dailyconfirmed }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Daily New Cases',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart2'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- For chart3 -->
+      <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Total Recoveries'],
+          {% for point in cases_time_series %}
+          ['{{ point.date }}', {{ point.totalrecovered }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Total Recoveries',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart3'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- For chart4 -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Daily Recoveries'],
+          {% for point in cases_time_series %}
+          ['{{ point.date }}', {{ point.dailyrecovered }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Daily Recoveries',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart4'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- For chart5 -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Total Deceased'],
+          {% for point in cases_time_series %}
+          ['{{ point.date }}', {{ point.totaldeceased }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Total Deceased',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart5'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    <!-- For chart6 -->
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Date', 'Daily New Deceased'],
+          {% for point in cases_time_series %}
+          ['{{ point.date }}', {{ point.totaldeceased }}],
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Daily New Deceased',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart6'));
+
+        chart.draw(data, options);
+      }
+    </script>
+<style>
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: red;
+   color: white;
+   text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Source :</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        The statistics are obtained from <a href="https://www.mohfw.gov.in/">Ministry of Health and Family welfare</a> official website. The data is verified with Media Sources and is updated on a hourly basis. However if you wish to see the latest data, click on Load Data
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="/loaddata"><button type="button" class="btn btn-primary">Load Data</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+    </div>
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#"><h3>Covid 19 Statistics</h3></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalLong">Source</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+   <div class="row" style="padding-top: 25px;">
+      <div class="col-sm" ><center><button type="button" class="btn btn-primary">Total Cases : {{ total_stat.confirmed }}</button></center></div>
+      <div class="col-sm"><center><button type="button" class="btn btn-success">Total Recovered : {{ total_stat.recovered }}</button></center></div>
+      <div class="col-sm"><center><button type="button" class="btn btn-warning">Total Active : {{ total_stat.active }}</button></center></div>
+      <div class="col-sm"><center><button type="button" class="btn btn-danger">Total Deaths : {{ total_stat.deaths }}</button></center></div>
+    </div>     
+       <div class="row" style="padding-top: 25px;">
+      <div class="col-sm-6">
+{% include "stats/carousel.html" %}
+      </div>
+      <div class="col-sm-6" style="padding-top: 25px;">
+        <center><div id="chart_div" width="100%" height="100%"></div></center></div>
+  </div>
+  <br/>
+{% include "stats/table.html" %}
+</div>
+<div class="row">
+<div class="col-sm-6">
+      <center><div id="chart1" style="width: 100%; height: 500px; max-width:900px"></div></center>
+</div>
+<div class="col-sm-6">
+      <center><div id="chart2" style="width: 100%; height: 500px; max-width:900px"></div></center>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-6">
+      <center><div id="chart3" style="width: 100%; height: 500px; max-width:900px"></div></center>
+</div>
+<div class="col-sm-6">
+      <center><div id="chart4" style="width: 100%; height: 500px; max-width:900px"></div></center>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-6">
+      <center><div id="chart5" style="width: 100%; height: 500px; max-width:900px"></div></center>
+</div>
+<div class="col-sm-6">
+      <center><div id="chart6" style="width: 100%; height: 500px; max-width:900px"></div></center>
+</div>
+</div>
+</div>
+
+
+
+<footer class="page-footer font-small blue">
+
+  <div class="footer-copyright text-center py-3">Developed by Harsha Surampudi
+  </div>
+
+</footer>
+</body>
+
+</html>
+
+

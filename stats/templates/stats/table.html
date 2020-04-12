@@ -1,0 +1,21 @@
+<div class="table-responsive">
+  <table id="example" class="table table-striped table-hover " style="width:100%">
+    <thead>
+      <tr>
+        <th>State/UT</th>
+        <th>Confirmed Cases</th>
+        <th>Recovered </th>
+        <th>Deaths</th>
+      </tr>
+    </thead>
+    <tbody>{% for entry in state_data %}
+      <tr>
+        <td>{{ entry.state }}</td>
+        <td>{{ entry.confirmed }}</td>
+        <td>{{ entry.recovered }}</td>
+        <td>{{ entry.deaths }}</td>
+      </tr>
+       {% endfor %}
+    </tbody>
+  </table>
+</div>
