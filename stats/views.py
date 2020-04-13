@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from twilio.rest import Client
 from django.template import loader
 from django.shortcuts import redirect
 from .forms import Subscribe
@@ -38,6 +39,26 @@ def subscribeWap(request):
                 phoneNumber=PhoneNumber()
                 phoneNumber.wap_number=cleaned_data["phoneNumber"]
                 phoneNumber.save()
+                account_sid = 'ACd6a11c43a774a9884c0753087a732dc4'
+                auth_token = '09ff91b796470b143c673feaafe4ef8f'
+                client = Client(account_sid, auth_token)
+                url = 'https://api.covid19india.org/data.json'
+                r = requests.get(url)
+                data = r.json()
+                state_data_with_total = data["statewise"]
+                for item in state_data_with_total:
+                    if (item['state'] == "Total"):
+                        total_stat = item
+                        break
+                    else:
+                        total_stat = None
+                text = "COVID-19 Statistics:- Total cases : "+str(total_stat["confirmed"])+", Active cases : " +str(total_stat["active"])+", Recovered Cases : "+str(total_stat["recovered"])+", Deceased : "+str(total_stat["deaths"])
+                message = client.messages.create(
+                                              body=text,
+                                              from_='whatsapp:+14155238886',
+                                              to='whatsapp:'+str(phoneNumber.wap_number)
+                                          )
+
             return redirect(index)
     else:
         form = Subscribe()
@@ -45,8 +66,8 @@ def subscribeWap(request):
     phone_set=set()
     for phone in phone_list:
         phone_set.add(phone.wap_number)
-    available_count= 250-len(phone_set)
-    available_flag= 250>len(phone_set)
+    available_count= 900-len(phone_set)
+    available_flag= 900>len(phone_set)
     template=loader.get_template('stats/subscribe_wap.html')
     context={'form': form, 'available_count': available_count,'available_flag':available_flag }
     return HttpResponse(template.render(context, request))

@@ -27,8 +27,6 @@ class Command(BaseCommand):
         phone_set=set()
         for phone in phone_list:
             phone_set.add(phone.wap_number)
-        for sms in client.messages.list():
-            print(sms.to)
 
         for number in phone_set:
             message = client.messages.create(
@@ -36,5 +34,5 @@ class Command(BaseCommand):
                                           from_='whatsapp:+14155238886',
                                           to='whatsapp:'+str(number)
                                       )
-            print(message.sid)
+            #print(message.sid)
             time.sleep(5)
