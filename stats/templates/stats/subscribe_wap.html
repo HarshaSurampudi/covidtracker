@@ -1,0 +1,23 @@
+{% extends "stats/base.html" %}
+{% block page %}
+<form action="/subscribewap" method="post">
+    <br/>
+    <center><h5>Subscribe to updates on Whatsapp(once in every Six hours)</h5></center>
+    <center>Subscriptions available : {{ available_count }}
+    {% if available_flag %}
+    <center><h6>Step 1</h6></center>
+    <p> Send a message on Whatsapp to +14155238886. Message Text : "join stranger-love", without quotes or click on <a href="whatsapp://send?phone=+14155238886&text=join+stranger-love">this link</a> if you are on your phone.</p>
+    <p>You will recieve a reply with conformation and instructions if you wish to cancel the subscription</p>
+    <center><h6>Step 2</h6></center>
+    <p>Enter your Whatsapp number below. including country code without spaces (Ex: +919876543210)</p>
+    <div class="form-group">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+    </div></form>
+    {% else %}
+    <br/>
+        <center><h1>Sorry :( </h1></center>
+    {% endif %}
+
+{% endblock %}

@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>COVID-19 Statistics</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- for Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% extends "stats/base.html" %}
+{% block scripts %}
 <!-- For datatable -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -198,25 +189,8 @@
         chart.draw(data, options);
       }
     </script>
-
-<style>
-body { width: 100%; text-align: center; }
-html, body {
-  overflow-x: hidden;
-}
-body {
-  position: relative
-}
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: red;
-   color: white;
-   text-align: center;
-}
-
+{% endblock %}
+{% block styles %}<style>
 .testimonial-group > .row {
   overflow-x: auto;
   white-space: nowrap;
@@ -226,17 +200,8 @@ body {
   float: none;
 }
 </style>
-</head>
-<body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-    </div>
-    <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" href="#"><h3>Covid 19 Statistics</h3></a>
-    </div>
-    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-    </div>
-</nav>
+{% endblock %}
+{% block page %}
 <div class="container-fluid">
    <div class="row" style="padding-top: 25px;">
       <div class="col-sm" ><center><button type="button" class="btn btn-primary">Total Cases : {{ total_stat.confirmed }}</button></center></div>
@@ -283,12 +248,4 @@ body {
 </div>
 </div>
 </div>
-<footer class="page-footer font-small blue">
-
-  <div class="footer-copyright text-center py-3">Developed by Harsha Surampudi
-  </div>
-
-</footer>
-</body>
-
-</html>
+{% endblock %}
